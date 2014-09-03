@@ -2,6 +2,9 @@
 ====================
 In 2 tallen: Noteer voor- en nadelen van jQuery (minimaal 5 van ieder)
 
-voordelen
-- Je kan de dom minipuleren
-- 
+Voordelen:
+* Gemakkelijk te gebruiken
+* Grote library
+* Sterke opensource community (meerdere plugins beschikbaar)
+* Goede documentatie en tutorials
+* Ajax ondersteuning
