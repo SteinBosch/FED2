@@ -8,3 +8,7 @@ Voordelen:
 * Sterke opensource community (meerdere plugins beschikbaar)
 * Goede documentatie en tutorials
 * Ajax ondersteuning
+
+Nadelen:
+* Funtionaliteiten kunnen gelimiteerd zijn
+* Om jQuery te kunnen runnen is een javascript bestand nodig
