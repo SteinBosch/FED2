@@ -22,3 +22,5 @@ Noem 5 functionaliteiten van jQuery
 * Functies
 * Dom manipulatie
 * Ajax/json implementatie
+* Events
+* Animatie
