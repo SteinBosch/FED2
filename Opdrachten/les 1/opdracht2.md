@@ -1,6 +1,7 @@
-*2.1: No jQuery, why?*
+2.1: No jQuery, why?
+====================
 In 2 tallen: Noteer voor- en nadelen van jQuery (minimaal 5 van ieder)
 
-voordelen:
+voordelen
 - Je kan de dom minipuleren
 - 
