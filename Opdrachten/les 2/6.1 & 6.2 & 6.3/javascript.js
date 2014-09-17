@@ -23,7 +23,9 @@ var app = app || {};
 	}
 
 	app.debug = {
-		
+		message: function(message) {
+			console.log(message); // Added debugger message method for fun!
+		}
 	}
 
 	app.controller.init();
