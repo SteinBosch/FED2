@@ -1,0 +1,6 @@
+.active, .active section {
+	display: block;
+}
+section {
+	display: none;
+}

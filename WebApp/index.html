@@ -1,14 +1,54 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
-        <title>Opdracht 1</title>
         <meta charset="utf-8">
-        <link href="inc/css/style.css" rel="stylesheet" type="text/css" />
+        <meta name="description" content="Web App V1, basic JavaScript Skeleton">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>My Favorite Movies</title>
+        <link rel="stylesheet" href="static/css/style.css">
+        <link rel="author" href="humans.txt">
     </head>
     <body>
-        <div id="container">
-        </div>
-        <script type="text/javascript" src="inc/js/javascript.js"></script>
+		<main id="content">
+			<section data-route="about">
+				<section>
+					<header id="about">
+						<h1 data-bind="title"></h1>
+
+						<div id="discription">
+							<p data-bind="paragraph"></p>
+						</div>
+					</header>
+				</section>
+			</section>
+
+			<section data-route="movies">
+				<h1>Favorite movies</h1>	
+				<article id="movies">
+					<header>
+						<h1 data-bind="title"></h1>
+						<em>Release date: <time data-bind="releaseDate"></time></em>
+					</header>
+
+					<figure>
+						<img data-bind="cover" alt="">
+					</figure>
+
+					<p data-bind="discription"></p>
+				</article>
+			</section>
+		</main>
+		
+		<header>
+			<nav>
+				<ul>
+					<li><a href="#about">About</a></li>
+					<li><a href="#movies">Movies</a></li>
+				</ul>
+			</nav>
+		</header>
+        <script src="static/js/routie.js"></script>
+        <script src="static/js/transparency.min.js"></script>
+        <script src="static/js/app.js"></script>
     </body>
 </html>
