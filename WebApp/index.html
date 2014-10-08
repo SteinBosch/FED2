@@ -9,6 +9,25 @@
         <link rel="author" href="humans.txt">
     </head>
     <body>
+    	<header>
+			<nav>
+				<ul>
+					<li><a href="#about">About</a></li>
+					<li><a href="#movies">Movies</a></li>
+				</ul>
+				<br>
+				<ul>
+					<li><a href="#movies/genre/Horror">Horror</a></li>
+					<li><a href="#movies/genre/Drama">Drama</a></li>
+					<li><a href="#movies/genre/Crime">Crime</a></li>
+					<li><a href="#movies/genre/Thriller">Thriller</a></li>
+					<li><a href="#movies/genre/Action">Action</a></li>
+					<li><a href="#movies/genre/Adventure">Adventure</a></li>
+				</ul>
+				<br>
+			</nav>
+			<input class="input" type='text'>
+		</header>
 		<main id="content">
 			<section data-route="about">
 				<section>
@@ -39,17 +58,11 @@
 			</section>
 		</main>
 		
-		<header>
-			<nav>
-				<ul>
-					<li><a href="#about">About</a></li>
-					<li><a href="#movies">Movies</a></li>
-				</ul>
-			</nav>
-		</header>
+
 
         <script src="static/js/vendor/routie.js"></script>
         <script src="static/js/vendor/transparency.min.js"></script>
+        <script src="static/js/vendor/underscore-min.js"></script>
         <script src="static/js/app.js"></script>
     </body>
 </html>

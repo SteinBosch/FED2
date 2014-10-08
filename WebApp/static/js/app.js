@@ -7,19 +7,107 @@ var movies = movies || {};
 			movies.routie.init();
 			//if we have something on local storage place that
 			if(localStorage.getItem('movies')) {
-				var response = JSON.parse(localStorage.getItem('movies'));
-				movies.content['movies'] = response;
-				console.log(movies.content['movies']);
-				movies.sections.movies();
-				console.log("has localhost")
+				//var response = JSON.parse(localStorage.getItem('movies'));
+				//movies.content['movies'] = response;
+				//console.log(movies.content['movies']);
+				//movies.sections.movies();
+				movies.underscore.dataManipulate(localStorage.getItem('movies'));
+				console.log("has localStorage")
+
+				movies.worker.init();
 			} else {
-				var worker = new Worker('static/js/worker.js');
-				//movies.xhr.trigger('GET', 'http://dennistel.nl/movies');
-				console.log("has not localhost")
+				movies.worker.work();
+				console.log("no localStorage")
 			}
 			movies.sections.init();
 		}
 	}
+
+	movies.worker = {
+		init: function () {
+			console.log("worker activated");
+
+			setInterval(function () {
+				movies.worker.work();
+				console.log("work");
+			}, 5000);
+		},
+		work: function () {
+			var worker = new Worker('static/js/worker.js');
+			
+			worker.addEventListener('message', function(e) {
+			  	// Log the workers message.
+			  	//console.log(e.data);
+			  	localStorage.setItem('movies', e.data);
+			  	movies.underscore.dataManipulate(e.data);
+
+				
+			}, false);
+
+			worker.postMessage('http://dennistel.nl/movies');
+		}
+	},
+
+	movies.underscore = {
+		dataManipulate: function (data) {
+			//console.log(data);
+			parsedData = JSON.parse(data);
+			//console.log(parsedData);
+			for (i = 0; i < parsedData.length; i++) { 
+				//console.log(parsedData[i].reviews);
+										// _.map( function(num, key){ return num * 3; });
+			    parsedData[i].reviews = _.map(parsedData[i].reviews, function(num, key) {
+			    	//console.log(num);
+				    return { // return what new object will look like
+				        reviewScore: num.score,
+				    };
+				});
+				parsedData[i].reviews = _.reduce(parsedData[i].reviews, function(memo, num){ 
+					return memo + num.reviewScore ; 
+				}, 0 ) / parsedData[i].reviews.length;
+			}
+
+			//console.log(parsedData);
+			movies.underscore.filter(parsedData);
+		},
+
+		filter: function (data) {
+			var genre = '';
+
+			var hash = window.location.hash;
+			//console.log(hash);
+			var splitHash = hash.split("/");
+			//console.log(splitHash);
+
+			if (splitHash[1] === "genre") {
+				genre = splitHash[2];
+				//console.log(genre);
+				for (i = 0; i < data.length; i++) { 
+					var data = _.filter(data, function (data) { return _.contains(data.genres, genre);
+						}
+		        	);
+		        };
+			};
+			var input = document.querySelector(".input").value;
+			console.log(input);
+
+					var filtered = _.where(data, {author: "Shakespeare", year: 1611});
+
+			console.log(filtered);
+
+			console.log (data)
+			movies.underscore.update(data);
+
+		},
+		 
+
+		update: function (dataReady) {
+			movies.content['movies'] = dataReady;
+			stringifyedData = JSON.stringify(dataReady);
+			
+			movies.sections.movies();
+		}
+	},
 
 	movies.routie = {
 		init: function () {
@@ -30,10 +118,14 @@ var movies = movies || {};
 			    },
 			    'movies': function() {
 					movies.sections.toggle.movies();
-			    }
+			    },
+			    'movies/*': function() {
+			    	movies.sections.toggle.movies();
+			    	movies.worker.work();
+				},
 			});
 		}
-	}
+	},
 
 	movies.content = {
 
@@ -56,7 +148,7 @@ var movies = movies || {};
 		},
 
 		movies : []
-	}
+	},
 
 	movies.sections = {
 		init: function () {
