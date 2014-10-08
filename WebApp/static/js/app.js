@@ -5,6 +5,18 @@ var movies = movies || {};
 	movies.controller = {
 		init: function () {
 			movies.routie.init();
+			//if we have something on local storage place that
+			if(localStorage.getItem('movies')) {
+				var response = JSON.parse(localStorage.getItem('movies'));
+				movies.content['movies'] = response;
+				console.log(movies.content['movies']);
+				movies.sections.movies();
+				console.log("has localhost")
+			} else {
+				var worker = new Worker('static/js/worker.js');
+				//movies.xhr.trigger('GET', 'http://dennistel.nl/movies');
+				console.log("has not localhost")
+			}
 			movies.sections.init();
 		}
 	}
@@ -43,38 +55,12 @@ var movies = movies || {};
 			],
 		},
 
-		movies : [
-			{
-				title : "Shawshank Redemption",
-				releaseDate : "14 October 1994", 
-				discription : "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-				cover : "images/shawshank-redemption.jpg",
-			},
-			{
-				title : "The Godfather",
-				releaseDate : "24 March 1972", 
-				discription : "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-				cover : "images/the-godfather.jpg",
-			},
-			{
-				title : "Pulp Fiction",
-				releaseDate : "14 October 1994", 
-				discription : "The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-				cover : "images/pulp-fiction.jpg",
-			},
-			{
-				title : "The Dark Knight",
-				releaseDate : "18 July 2008", 
-				discription : "When Batman, Gordon and Harvey Dent launch an assault on the mob, they let the clown out of the box, the Joker, bent on turning Gotham on itself and bringing any heroes down to his level.",
-				cover : "images/the-dark-knight.jpg",
-			},
-		],
+		movies : []
 	}
 
 	movies.sections = {
 		init: function () {
 			movies.sections.about();
-			movies.sections.movies();
 		},
 
 		about: function () {
@@ -92,6 +78,7 @@ var movies = movies || {};
 					}
 				}
 			});
+
 		},
 
 		toggle : {
@@ -129,5 +116,4 @@ var movies = movies || {};
 	// console.log(movies.content.about.title);
 	// console.log(movies.content.about.discription);
 	// console.log(movies.content.movies);
-
 })();

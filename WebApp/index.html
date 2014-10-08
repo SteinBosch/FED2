@@ -5,7 +5,7 @@
         <meta name="description" content="Web App V1, basic JavaScript Skeleton">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>My Favorite Movies</title>
-        <link rel="stylesheet" href="static/css/style.css">
+        <link href="static/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> 
         <link rel="author" href="humans.txt">
     </head>
     <body>
@@ -27,14 +27,14 @@
 				<article id="movies">
 					<header>
 						<h1 data-bind="title"></h1>
-						<em>Release date: <time data-bind="releaseDate"></time></em>
+						<em>Release date: <time data-bind="release_date"></time></em>
 					</header>
 
 					<figure>
 						<img data-bind="cover" alt="">
 					</figure>
 
-					<p data-bind="discription"></p>
+					<p data-bind="plot"></p>
 				</article>
 			</section>
 		</main>
@@ -47,8 +47,9 @@
 				</ul>
 			</nav>
 		</header>
-        <script src="static/js/routie.js"></script>
-        <script src="static/js/transparency.min.js"></script>
+
+        <script src="static/js/vendor/routie.js"></script>
+        <script src="static/js/vendor/transparency.min.js"></script>
         <script src="static/js/app.js"></script>
     </body>
 </html>
