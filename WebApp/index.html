@@ -11,10 +11,14 @@
     <body>
     	<header>
 			<nav>
+				Nav
+				<br>
 				<ul>
 					<li><a href="#about">About</a></li>
 					<li><a href="#movies">Movies</a></li>
 				</ul>
+				<br>
+				Genre
 				<br>
 				<ul>
 					<li><a href="#movies/genre/Horror">Horror</a></li>
@@ -26,7 +30,26 @@
 				</ul>
 				<br>
 			</nav>
+			<br>
+			Search
+			<br>
 			<input class="input" type='text'>
+			<br><br>
+			Sort by:
+			<br>
+			<form action="">
+				<input type="radio" name="sortBy" value="none">Geen<br>
+				<input type="radio" name="sortBy" value="dateUp">Datum oplopend<br>
+				<input type="radio" name="sortBy" value="dateDown">Datum aflopend<br>
+			</form>
+			<br>
+			Group by:
+			<br>
+			<form action="">
+				<input type="radio" name="groupBy" value="none">Geen<br>
+				<input type="radio" name="groupBy" value="genre">genre<br>
+			</form>
+			<br>
 		</header>
 		<main id="content">
 			<section data-route="about">

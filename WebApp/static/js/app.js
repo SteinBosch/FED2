@@ -38,6 +38,7 @@ var movies = movies || {};
 			worker.addEventListener('message', function(e) {
 			  	// Log the workers message.
 			  	//console.log(e.data);
+			  	localStorage.clear('movies');
 			  	localStorage.setItem('movies', e.data);
 			  	movies.underscore.dataManipulate(e.data);
 
@@ -63,7 +64,7 @@ var movies = movies || {};
 				    };
 				});
 				parsedData[i].reviews = _.reduce(parsedData[i].reviews, function(memo, num){ 
-					return memo + num.reviewScore ; 
+					return memo + num.reviewScore; 
 				}, 0 ) / parsedData[i].reviews.length;
 			}
 
@@ -83,28 +84,80 @@ var movies = movies || {};
 				genre = splitHash[2];
 				//console.log(genre);
 				for (i = 0; i < data.length; i++) { 
-					var data = _.filter(data, function (data) { return _.contains(data.genres, genre);
-						}
-		        	);
+					var data = _.filter(data, function (data) { return _.contains(data.genres, genre);});
 		        };
 			};
+
 			var input = document.querySelector(".input").value;
-			console.log(input);
+			if (input.length > 0) {
+				var data = _.filter(data, function(data) {
+								var title = data.title.toLowerCase();
 
-					var filtered = _.where(data, {author: "Shakespeare", year: 1611});
+								if (title.indexOf(input.toLowerCase()) !=-1) {
+								    return data;
+								}
+							});
+		    };
+		    //console.log (data);
 
-			console.log(filtered);
+			var sortBy = document.getElementsByName('sortBy');
 
-			console.log (data)
+			for (var i = 0, length = sortBy.length; i < length; i++) {
+			    if (sortBy[i].checked) {
+			        if (sortBy[i].value === "dateDown") {
+			        	var data = _(data).chain().sortBy(function (num){ 
+			
+						    var parts = num.release_date.split(' ');
+
+						    var monthNames = [ "January", "February", "March", "April", "May", "June",
+						    "July", "August", "September", "October", "November", "December" ];
+
+						    var monthValue = monthNames.indexOf(parts[1]);
+						    var date = new Date( parts[2],  monthValue, parts[0]);
+							var sort = -date.getTime();
+							return sort;
+				        }).value();
+
+			        };
+			        if (sortBy[i].value === "dateUp") {
+			        	var data = _(data).chain().sortBy(function (num){ 
+			
+						    var parts = num.release_date.split(' ');
+
+						    var monthNames = [ "January", "February", "March", "April", "May", "June",
+						    "July", "August", "September", "October", "November", "December" ];
+
+						    var monthValue = monthNames.indexOf(parts[1]);
+						    var date = new Date( parts[2],  monthValue, parts[0]);
+							var sort = date.getTime();
+							return sort;
+				        }).value();
+
+			        };
+			        // only one radio can be logically checked, don't check the rest
+			        break;
+			    }
+			}
+			var group = document.getElementsByName('groupBy');
+
+			for (var i = 0, length = group.length; i < length; i++) {
+			    if (group[i].checked) {
+			        if (group[i].value === "genre") {
+			        	var data = _.chain(data).groupBy("genre").value();
+			        };
+			        
+			        break;
+			    }
+			}		    		    
+
+			console.log(data);
 			movies.underscore.update(data);
 
 		},
 		 
 
 		update: function (dataReady) {
-			movies.content['movies'] = dataReady;
-			stringifyedData = JSON.stringify(dataReady);
-			
+			movies.content['movies'] = dataReady;			
 			movies.sections.movies();
 		}
 	},
@@ -191,14 +244,14 @@ var movies = movies || {};
 				var hash = movies.sections.toggle.getAllElementsWithAttribute('data-route');
 				hash[1].className = "";
 				hash[0].classList.add("active");
-				console.log("#about");
+				//console.log("#about");
 			},
 
 			movies: function () {
 				var hash = movies.sections.toggle.getAllElementsWithAttribute('data-route');
 				hash[0].className = "";
 				hash[1].classList.add("active");	
-				console.log("#movies");
+				//console.log("#movies");
 			},
 		},
 	}
