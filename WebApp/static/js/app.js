@@ -1,25 +1,35 @@
+//Namespace
 var movies = movies || {};
 
+//Self invoking function
 (function(){
 
 	movies.controller = {
 		init: function () {
-			movies.routie.init();
-			//if we have something on local storage place that
 			if(localStorage.getItem('movies')) {
-				//var response = JSON.parse(localStorage.getItem('movies'));
-				//movies.content['movies'] = response;
-				//console.log(movies.content['movies']);
-				//movies.sections.movies();
-				movies.underscore.dataManipulate(localStorage.getItem('movies'));
 				console.log("has localStorage")
 
+				movies.content['movies'] = JSON.parse(localStorage.getItem('movies'));
 				movies.worker.init();
+				movies.routie.init();
+
 			} else {
-				movies.worker.work();
 				console.log("no localStorage")
+				movies.worker.work();
+				document.querySelector("#firstTimeData").classList.add("show");
+				document.querySelector("#content").classList.add("showFirstTime");
+				setTimeout(function () {
+					console.log("localStorage set")
+					movies.content['movies'] = JSON.parse(localStorage.getItem('movies'));
+					movies.worker.init();
+					movies.routie.init();
+					document.querySelector("#firstTimeData").classList.remove("show");
+					document.querySelector("#content").classList.remove("showFirstTime");
+
+				}, 2000);
+				
 			}
-			movies.sections.init();
+			movies.misc.init();
 		}
 	}
 
@@ -30,16 +40,14 @@ var movies = movies || {};
 			setInterval(function () {
 				movies.worker.work();
 				console.log("work");
-			}, 5000);
+			}, 10000);
+
 		},
 		work: function () {
 			var worker = new Worker('static/js/worker.js');
 			
 			worker.addEventListener('message', function(e) {
-			  	// Log the workers message.
-			  	//console.log(e.data);
-			  	localStorage.clear('movies');
-			  	localStorage.setItem('movies', e.data);
+
 			  	movies.underscore.dataManipulate(e.data);
 
 				
@@ -51,127 +59,163 @@ var movies = movies || {};
 
 	movies.underscore = {
 		dataManipulate: function (data) {
-			//console.log(data);
+
 			parsedData = JSON.parse(data);
-			//console.log(parsedData);
 			for (i = 0; i < parsedData.length; i++) { 
-				//console.log(parsedData[i].reviews);
-										// _.map( function(num, key){ return num * 3; });
-			    parsedData[i].reviews = _.map(parsedData[i].reviews, function(num, key) {
-			    	//console.log(num);
-				    return { // return what new object will look like
+			    parsedData[i].reviews = _.map(parsedData[i].reviews, function(num) {
+
+				    return {
 				        reviewScore: num.score,
 				    };
 				});
 				parsedData[i].reviews = _.reduce(parsedData[i].reviews, function(memo, num){ 
 					return memo + num.reviewScore; 
+
 				}, 0 ) / parsedData[i].reviews.length;
 			}
 
-			//console.log(parsedData);
-			movies.underscore.filter(parsedData);
+			localStorage.clear('movies');
+			localStorage.setItem('movies', JSON.stringify(parsedData));
+			console.log("Work done");
+
 		},
 
-		filter: function (data) {
-			var genre = '';
+		filter: function (genre) {
+			console.log(genre);
 
-			var hash = window.location.hash;
-			//console.log(hash);
-			var splitHash = hash.split("/");
-			//console.log(splitHash);
+			var data = JSON.parse(localStorage.getItem('movies'));
+			console.log(data);
 
-			if (splitHash[1] === "genre") {
-				genre = splitHash[2];
-				//console.log(genre);
-				for (i = 0; i < data.length; i++) { 
-					var data = _.filter(data, function (data) { return _.contains(data.genres, genre);});
-		        };
-			};
+			var data = _.filter(data, function (data) { return _.contains(data.genres, genre);});
+			console.log(data);
 
-			var input = document.querySelector(".input").value;
-			if (input.length > 0) {
-				var data = _.filter(data, function(data) {
-								var title = data.title.toLowerCase();
+			movies.underscore.update(data);
+		},
 
-								if (title.indexOf(input.toLowerCase()) !=-1) {
-								    return data;
-								}
-							});
-		    };
-		    //console.log (data);
+		input: function (input) {
+			var data = movies.content['movies'];
+			var data = _.filter(data, function(data) {
+							var title = data.title.toLowerCase();
 
-			var sortBy = document.getElementsByName('sortBy');
+							if (title.indexOf(input.toLowerCase()) !=-1) {
+							    return data;
+							}
+						});
+		    movies.underscore.update(data);
+		},
+		sortBy: function (sort) {
+			var data = movies.content['movies'];
+			console.log(data);
+			console.log(sort);
 
-			for (var i = 0, length = sortBy.length; i < length; i++) {
-			    if (sortBy[i].checked) {
-			        if (sortBy[i].value === "dateDown") {
-			        	var data = _(data).chain().sortBy(function (num){ 
-			
-						    var parts = num.release_date.split(' ');
+	        if (sort === "datedown") {
+	        	var data = _(data).chain().sortBy(function (num){ 
+	
+				    var parts = num.release_date.split(' ');
 
-						    var monthNames = [ "January", "February", "March", "April", "May", "June",
-						    "July", "August", "September", "October", "November", "December" ];
+				    var monthNames = [ "January", "February", "March", "April", "May", "June",
+				    "July", "August", "September", "October", "November", "December" ];
 
-						    var monthValue = monthNames.indexOf(parts[1]);
-						    var date = new Date( parts[2],  monthValue, parts[0]);
-							var sort = -date.getTime();
-							return sort;
-				        }).value();
+				    var monthValue = monthNames.indexOf(parts[1]);
+				    var date = new Date( parts[2],  monthValue, parts[0]);
+					var sort = -date.getTime();
+					return sort;
+		        }).value();
+	        }
 
-			        };
-			        if (sortBy[i].value === "dateUp") {
-			        	var data = _(data).chain().sortBy(function (num){ 
-			
-						    var parts = num.release_date.split(' ');
+	        if (sort === "dateup") {
+	        	var data = _(data).chain().sortBy(function (num){ 
+	
+				    var parts = num.release_date.split(' ');
 
-						    var monthNames = [ "January", "February", "March", "April", "May", "June",
-						    "July", "August", "September", "October", "November", "December" ];
+				    var monthNames = [ "January", "February", "March", "April", "May", "June",
+				    "July", "August", "September", "October", "November", "December" ];
 
-						    var monthValue = monthNames.indexOf(parts[1]);
-						    var date = new Date( parts[2],  monthValue, parts[0]);
-							var sort = date.getTime();
-							return sort;
-				        }).value();
+				    var monthValue = monthNames.indexOf(parts[1]);
+				    var date = new Date( parts[2],  monthValue, parts[0]);
+					var sort = date.getTime();
+					return sort;
+		        }).value();
 
-			        };
-			        // only one radio can be logically checked, don't check the rest
-			        break;
-			    }
-			}
-			var group = document.getElementsByName('groupBy');
-
-			for (var i = 0, length = group.length; i < length; i++) {
-			    if (group[i].checked) {
-			        if (group[i].value === "genre") {
-			        	var data = _.chain(data).groupBy("genre").value();
-			        };
-			        
-			        break;
-			    }
-			}		    		    
+	        }	    		    
 
 			console.log(data);
 			movies.underscore.update(data);
 
 		},
-		 
+		reset: function () {
+			var data = JSON.parse(localStorage.getItem('movies'));
+			movies.underscore.update(data);
+		},
 
 		update: function (dataReady) {
-			movies.content['movies'] = dataReady;			
+			movies.content['movies'] = dataReady;
 			movies.sections.movies();
 		}
+	},
+
+	movies.detail = {
+		data: function (title) {
+
+			var data = JSON.parse(localStorage.getItem('movies'));
+
+			var data = 
+				_.filter(data, function (data) {
+					var escapedUrl = data.title.replace(/ /g,"-").toLowerCase();
+					//console.log(escapedUrl);
+					if (title === escapedUrl) {
+						console.log("ja");
+						return data;
+					};
+				});
+
+			console.log(data);
+			movies.content['movies'] = data;
+			movies.sections.detail();
+		},
 	},
 
 	movies.routie = {
 		init: function () {
 
 			routie({
+				'': function() {
+			    	console.log("leeg")
+			    	window.location.hash = "about"
+			    },
 			    'about': function() {
+			    	movies.sections.about();
 					movies.sections.toggle.about();
 			    },
 			    'movies': function() {
+			    	movies.underscore.reset();
+			    	movies.sections.movies();
 					movies.sections.toggle.movies();
 			    },
+			    'movies/:title': function(title) {
+			    	console.log(title);
+			    	movies.detail.data(title);
+			    	movies.sections.toggle.detail();
+				},
+			    'movies/genre/:genre': function(genre) {
+			    	movies.underscore.filter(genre);
+			    	movies.sections.toggle.movies();
+				},
+				'movies/sortby/:sort': function(sort) {
+			    	movies.underscore.sortBy(sort);
+			    	movies.sections.toggle.movies();
+				},
+				'movies/search/input': function() {
+					var input = document.querySelector(".input").value;
+					console.log(input);
+					if (input.length > 0){
+						console.log(input);
+					   	movies.underscore.input(input);
+			    		movies.sections.toggle.movies();
+					}
+					window.location.hash = "movies/search/input-done"
+				},
+				
 			    'movies/*': function() {
 			    	movies.sections.toggle.movies();
 			    	movies.worker.work();
@@ -204,61 +248,124 @@ var movies = movies || {};
 	},
 
 	movies.sections = {
-		init: function () {
-			movies.sections.about();
-		},
 
 		about: function () {
-			// console.log("aboutsections");
-			Transparency.render(document.getElementById('about'), movies.content.about);
+			Transparency.render(document.getElementById('top'), {title : "About this app"});
+
 			Transparency.render(document.getElementById('discription'), movies.content.about.discription);
 		},
 
 		movies: function () {
-			// console.log("moviessections");
+			Transparency.render(document.getElementById('top'), {title : "Favorite movies"});
 			Transparency.render(document.getElementById('movies'), movies.content.movies, {
 				cover: {
 					src: function() {
 						return this.cover;
 					}
+				},
+				link: {
+					href: function() {
+						var escapedUrl = this.title.replace(/ /g,"-").toLowerCase();
+						return "#movies/"+escapedUrl;
+					},
+					text: function() {
+				      return "Details of this movie";
+				    }
 				}
+			});
+		},
+		detail: function () {
+			Transparency.render(document.getElementById('top'), {title : "Movie details"});
+			Transparency.render(document.getElementById('detail'), movies.content.movies, {
+				cover: {
+					src: function() {
+						return this.cover;
+					}
+				},
+				actors: {
+					url_photo: {
+						src: function() {
+							return this.url_photo;
+							console.log(this);
+						}
+					},
+				},
+				genres: {
+				    genre: {
+						text: function() {
+							return this.value;
+						}
+					},
+				},
 			});
 
 		},
 
 		toggle : {
-			getAllElementsWithAttribute: function (attribute) {
-			 	var matchingElements = [];
-			 	var allElements = document.getElementsByTagName('*');
-			 	for (var i = 0, n = allElements.length; i < n; i++) {
-			    	if (allElements[i].getAttribute(attribute)) {
-			      		// Element exists with attribute. Add to array.
-			      		matchingElements.push(allElements[i]);
-			   		}
-			  	}
-			  	return matchingElements;
-			},
-
 			
 			about: function () {
-				var hash = movies.sections.toggle.getAllElementsWithAttribute('data-route');
-				hash[1].className = "";
-				hash[0].classList.add("active");
-				//console.log("#about");
+				document.querySelector("section[data-route=about]").classList.add("active");
+				document.querySelector("section[data-route=movies]").className = "";
+				document.querySelector("section[data-route=detail]").className = "";
 			},
 
 			movies: function () {
-				var hash = movies.sections.toggle.getAllElementsWithAttribute('data-route');
-				hash[0].className = "";
-				hash[1].classList.add("active");	
-				//console.log("#movies");
+				document.querySelector("section[data-route=about]").className = "";
+				document.querySelector("section[data-route=movies]").classList.add("active");
+				document.querySelector("section[data-route=detail]").className = "";
+			},
+			detail: function () {
+				document.querySelector("section[data-route=about]").className = "";
+				document.querySelector("section[data-route=movies]").className = "";
+				document.querySelector("section[data-route=detail]").classList.add("active");
 			},
 		},
-	}
+	},
+	
+	movies.misc = {
+		init: function () {
+			movies.misc.app();
+			movies.misc.hammer();
+		},
+
+		app: function () {
+
+			var classname = document.getElementsByClassName("nav-toggle");
+
+		    var classnameFunction = function() {
+		        document.querySelector("body").classList.toggle("nav-active");
+		    };
+
+		    for(var i=0;i<classname.length;i++){
+		        classname[i].addEventListener('click', classnameFunction, false);
+		    };
+
+
+
+		    var nav_a = document.querySelectorAll("nav a");
+		    console.log(nav_a);
+
+		    var nav_aFunction = function() {
+		        document.querySelector("body").className = "";
+		    };
+
+		    for(var i=0;i<nav_a.length;i++){
+		        nav_a[i].addEventListener('click', nav_aFunction, false);
+		    };
+		},
+
+		hammer: function () {
+			var content = document.getElementById("content");
+			var navigation = document.getElementById("navigation");
+
+			Hammer(content).on("swiperight", function() {
+			    document.querySelector("body").classList.add("nav-active");
+			});
+			Hammer(navigation).on("swipeleft", function() {
+			    document.querySelector("body").className = "";
+			});
+		},
+	},
 
 	movies.controller.init();
-
-	// console.log(movies.content.about.title);
-	// console.log(movies.content.about.discription);
-	// console.log(movies.content.movies);
 })();

@@ -67,22 +67,306 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-/* line 8, ../sass/screen.scss */
+@font-face {
+  font-family: 'open_sanssemibold';
+  src: url("../font/opensans-semibold-webfont.eot");
+  src: url("../font/opensans-semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../font/opensans-semibold-webfont.woff2") format("woff2"), url("../font/opensans-semibold-webfont.woff") format("woff"), url("../font/opensans-semibold-webfont.ttf") format("truetype"), url("../font/opensans-semibold-webfont.svg#open_sanssemibold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'open_sansregular';
+  src: url("../font/opensans-regular-webfont.eot");
+  src: url("../font/opensans-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../font/opensans-regular-webfont.woff2") format("woff2"), url("../font/opensans-regular-webfont.woff") format("woff"), url("../font/opensans-regular-webfont.ttf") format("truetype"), url("../font/opensans-regular-webfont.svg#open_sansregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'open_sansbold';
+  src: url("../font/opensans-bold-webfont.eot");
+  src: url("../font/opensans-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../font/opensans-bold-webfont.woff2") format("woff2"), url("../font/opensans-bold-webfont.woff") format("woff"), url("../font/opensans-bold-webfont.ttf") format("truetype"), url("../font/opensans-bold-webfont.svg#open_sansbold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/* line 51, ../sass/screen.scss */
+html {
+  font-family: 'open_sansregular';
+  color: #222;
+}
+
+/* line 56, ../sass/screen.scss */
 .active, .active section {
   display: block;
 }
 
-/* line 11, ../sass/screen.scss */
+/* line 59, ../sass/screen.scss */
 section {
   display: none;
 }
 
-/* line 15, ../sass/screen.scss */
+/* line 63, ../sass/screen.scss */
 body {
   background-color: white;
+  /*transition*/
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  background-color: #E5E5E5;
 }
 
-/* line 19, ../sass/screen.scss */
-h1 {
-  font-size: 2em;
+/* line 72, ../sass/screen.scss */
+body.nav-active {
+  /*transform*/
+  -webkit-transform: translate(15em, 0);
+  -moz-transform: translate(15em, 0);
+  -ms-transform: translate(15em, 0);
+  -o-transform: translate(15em, 0);
+  transform: translate(15em, 0);
+}
+
+/* line 81, ../sass/screen.scss */
+a {
+  color: #222;
+}
+
+/* line 86, ../sass/screen.scss */
+nav {
+  position: fixed;
+  width: 15em;
+  /*transform*/
+  -webkit-transform: translate(-15em, 0);
+  -moz-transform: translate(-15em, 0);
+  -ms-transform: translate(-15em, 0);
+  -o-transform: translate(-15em, 0);
+  transform: translate(-15em, 0);
+  background-color: #D2A782;
+  height: 100%;
+  min-height: 1200px;
+}
+/* line 98, ../sass/screen.scss */
+nav ul {
+  width: 100%;
+}
+/* line 100, ../sass/screen.scss */
+nav ul li {
+  height: 2em;
+  text-align: center;
+  line-height: 2em;
+}
+/* line 107, ../sass/screen.scss */
+nav h1, nav h2, nav h3 {
+  height: 2em;
+  text-align: center;
+  width: 100%;
+  margin: 10px 0;
+  background-color: #A96A35;
+  line-height: 2em;
+  color: white;
+}
+/* line 116, ../sass/screen.scss */
+nav h2 {
+  font-size: 1.25em;
+  margin: 0;
+  margin-bottom: 10px;
+}
+/* line 121, ../sass/screen.scss */
+nav h3 {
+  font-size: 1em;
+}
+/* line 124, ../sass/screen.scss */
+nav input {
+  display: inline-block;
+  margin-left: 35px;
+}
+
+/* line 131, ../sass/screen.scss */
+#top {
+  width: 100%;
+  background-color: #A96A35;
+  height: 2.5em;
+  color: white;
+}
+/* line 136, ../sass/screen.scss */
+#top h1 {
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 1.5em;
+}
+/* line 142, ../sass/screen.scss */
+#top .nav-toggle {
+  border-color: transparent;
+  background: none;
+  z-index: 1;
+  padding: 0;
+  line-height: 40px;
+  font-size: 20px;
+  border: none;
+  color: white;
+  position: absolute;
+  width: 40px;
+}
+/* line 154, ../sass/screen.scss */
+#top .nav-toggle:focus {
+  outline: 0;
+}
+
+/* line 159, ../sass/screen.scss */
+#content {
+  padding: 15px;
+  opacity: 1;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+}
+
+/* line 167, ../sass/screen.scss */
+#content.showFirstTime {
+  opacity: 0;
+}
+
+/* line 171, ../sass/screen.scss */
+#discription p {
+  margin: 10px 0;
+}
+
+/* line 176, ../sass/screen.scss */
+#movies article {
+  background-color: rgba(169, 106, 53, 0.4);
+  padding: 10px;
+  color: #222;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+}
+/* line 191, ../sass/screen.scss */
+#movies article h1 {
+  font-size: 1.5em;
+}
+/* line 194, ../sass/screen.scss */
+#movies article div {
+  width: 48%;
+}
+/* line 197, ../sass/screen.scss */
+#movies article figure {
+  width: 48%;
+}
+/* line 199, ../sass/screen.scss */
+#movies article figure img {
+  width: 100%;
+  max-height: 300px;
+  max-width: 200px;
+}
+/* line 205, ../sass/screen.scss */
+#movies article header {
+  margin-bottom: 15px;
+}
+/* line 207, ../sass/screen.scss */
+#movies article header em {
+  line-height: normal;
+}
+/* line 211, ../sass/screen.scss */
+#movies article p {
+  line-height: normal;
+}
+/* line 214, ../sass/screen.scss */
+#movies article a {
+  margin-top: 15px;
+  display: block;
+}
+
+/* line 222, ../sass/screen.scss */
+#detail article {
+  background-color: rgba(169, 106, 53, 0.4);
+  padding: 10px;
+  color: #222;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+}
+/* line 237, ../sass/screen.scss */
+#detail article h1 {
+  font-size: 1.5em;
+}
+/* line 240, ../sass/screen.scss */
+#detail article figure {
+  margin-bottom: 15px;
+}
+/* line 241, ../sass/screen.scss */
+#detail article figure img {
+  width: 100%;
+  max-height: 300px;
+  max-width: 200px;
+}
+/* line 248, ../sass/screen.scss */
+#detail article header {
+  margin-bottom: 15px;
+  width: 100%;
+}
+/* line 251, ../sass/screen.scss */
+#detail article header em {
+  line-height: normal;
+}
+/* line 255, ../sass/screen.scss */
+#detail article p {
+  line-height: normal;
+  margin-bottom: 15px;
+}
+/* line 259, ../sass/screen.scss */
+#detail article a {
+  margin-top: 15px;
+  display: block;
+}
+/* line 263, ../sass/screen.scss */
+#detail article section {
+  width: 50%;
+}
+/* line 265, ../sass/screen.scss */
+#detail article section h2 {
+  font-size: 1.25em;
+}
+/* line 268, ../sass/screen.scss */
+#detail article section div {
+  margin-top: 15px;
+}
+/* line 270, ../sass/screen.scss */
+#detail article section div span {
+  display: block;
+}
+
+/* line 277, ../sass/screen.scss */
+#firstTimeData {
+  position: fixed;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+}
+
+/* line 288, ../sass/screen.scss */
+div#firstTimeData.show {
+  display: block;
+  opacity: 1;
 }

@@ -2,24 +2,23 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="description" content="Web App V1, basic JavaScript Skeleton">
+        <meta name="description" content="Web App V2">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>My Favorite Movies</title>
         <link href="static/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> 
-        <link rel="author" href="humans.txt">
     </head>
     <body>
-    	<header>
-			<nav>
-				Nav
-				<br>
+    	<nav id="navigation">
+    		<h2>Navigatie</h2>
+			<div class="route_selector">
+				<h3>Pagina</h3>
 				<ul>
 					<li><a href="#about">About</a></li>
 					<li><a href="#movies">Movies</a></li>
 				</ul>
-				<br>
-				Genre
-				<br>
+			</div>
+			<div class="genre_selector">
+				<h3>Filter genre</h3>
 				<ul>
 					<li><a href="#movies/genre/Horror">Horror</a></li>
 					<li><a href="#movies/genre/Drama">Drama</a></li>
@@ -28,48 +27,55 @@
 					<li><a href="#movies/genre/Action">Action</a></li>
 					<li><a href="#movies/genre/Adventure">Adventure</a></li>
 				</ul>
-				<br>
-			</nav>
-			<br>
-			Search
-			<br>
-			<input class="input" type='text'>
-			<br><br>
-			Sort by:
-			<br>
-			<form action="">
-				<input type="radio" name="sortBy" value="none">Geen<br>
-				<input type="radio" name="sortBy" value="dateUp">Datum oplopend<br>
-				<input type="radio" name="sortBy" value="dateDown">Datum aflopend<br>
-			</form>
-			<br>
-			Group by:
-			<br>
-			<form action="">
-				<input type="radio" name="groupBy" value="none">Geen<br>
-				<input type="radio" name="groupBy" value="genre">genre<br>
-			</form>
-			<br>
-		</header>
-		<main id="content">
-			<section data-route="about">
-				<section>
-					<header id="about">
-						<h1 data-bind="title"></h1>
+			</div>
+			<div class="sort_selector">
+				<h3>Soorteer op datum</h3>
+				<ul>
+					<li><a href="#movies/sortby/dateup">Datum oplopend</a></li>
+					<li><a href="#movies/sortby/datedown">Datum aflopend</a></li>
+				</ul>
+			</div>
+			<div class="search_selector">
+				<h3>Zoek in selectie</h3>
+				<input class="input" type='text'>
+				<a href="#movies/search/input">Zoek</a>
+			</div>
+		</nav>
 
-						<div id="discription">
-							<p data-bind="paragraph"></p>
-						</div>
-					</header>
-				</section>
+		<div id='top'><button class="nav-toggle">&#9776;</button><h1 data-bind="title"></h1></div>
+
+		<main id="content">
+			<section data-route="about" id="discription">
+				<p data-bind="paragraph"></p>
 			</section>
 
-			<section data-route="movies">
-				<h1>Favorite movies</h1>	
-				<article id="movies">
+			<section data-route="movies" id="movies">
+				<article>
+					<div>
+						<header>
+							<h1 data-bind="title"></h1>
+							<em>Release date: <time data-bind="release_date"></time></em>
+						</header>
+				
+						<p data-bind="simple_plot"></p>
+						<a data-bind="link">Details</a>
+					</div>
+					<figure>
+						<img data-bind="cover" alt="">
+					</figure>
+				</article>
+			</section>
+
+			<section data-route="detail" id="detail">
+				<article>
 					<header>
 						<h1 data-bind="title"></h1>
 						<em>Release date: <time data-bind="release_date"></time></em>
+						<div>Gemiddelde review cijfer: <span data-bind="reviews"></span></div>
+
+						<div data-bind="genres">
+							<span data-bind="genre"></span>
+						</div>
 					</header>
 
 					<figure>
@@ -77,15 +83,39 @@
 					</figure>
 
 					<p data-bind="plot"></p>
+
+					<section>
+						<h2>Acteurs</h2>
+						<div data-bind="actors">
+							<div class="single_actor">
+								<span data-bind="character"></span>								
+								<span data-bind="actor_name"></span>
+								<img data-bind="url_photo"></img>
+							</div>
+						</div>
+					</section>
+					<section>
+						<h2>Regiseurs</h2>
+						<div data-bind="directors">
+							<div class="single_directors">
+								<span data-bind="name"></span>
+							</div>
+						</div>
+					</section>
 				</article>
 			</section>
 		</main>
+		<div id="firstTimeData">LOADING DATA FOR THE FIRST TIME..... PLEASE WAIT</div>
 		
 
 
-        <script src="static/js/vendor/routie.js"></script>
+        <!--<script src="static/js/vendor/routie.js"></script>
         <script src="static/js/vendor/transparency.min.js"></script>
         <script src="static/js/vendor/underscore-min.js"></script>
+        <script src="static/js/vendor/hammer.min.js"></script>
         <script src="static/js/app.js"></script>
+        <script src="static/concat/built.js"></script>-->
+        <script src="static/uglify/app.min.js"></script>
+
     </body>
 </html>

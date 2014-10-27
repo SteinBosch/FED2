@@ -4,6 +4,54 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('../font/opensans-semibold-webfont.eot');
+    src: url('../font/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/opensans-semibold-webfont.woff2') format('woff2'),
+         url('../font/opensans-semibold-webfont.woff') format('woff'),
+         url('../font/opensans-semibold-webfont.ttf') format('truetype'),
+         url('../font/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../font/opensans-regular-webfont.eot');
+    src: url('../font/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/opensans-regular-webfont.woff2') format('woff2'),
+         url('../font/opensans-regular-webfont.woff') format('woff'),
+         url('../font/opensans-regular-webfont.ttf') format('truetype'),
+         url('../font/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'open_sansbold';
+    src: url('../font/opensans-bold-webfont.eot');
+    src: url('../font/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/opensans-bold-webfont.woff2') format('woff2'),
+         url('../font/opensans-bold-webfont.woff') format('woff'),
+         url('../font/opensans-bold-webfont.ttf') format('truetype'),
+         url('../font/opensans-bold-webfont.svg#open_sansbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+html {	font-family: 'open_sansregular'; color: #222;}
+
+// h1, h2, h3 {font-family: 'open_sanssemibold';}
+
 
 .active, .active section {
 	display: block;
@@ -12,10 +60,232 @@ section {
 	display: none;
 }
 
-body {
-	background-color: white;
+body{
+	background-color:white;
+	/*transition*/
+	-webkit-transition:all 0.5s;
+	   -moz-transition:all 0.5s;
+	     -o-transition:all 0.5s;
+	        transition:all 0.5s;
+	background-color:#E5E5E5;
+}
+body.nav-active{
+	/*transform*/
+	-webkit-transform:translate(15em, 0);
+	   -moz-transform:translate(15em, 0);
+	    -ms-transform:translate(15em, 0);
+	     -o-transform:translate(15em, 0);
+	        transform:translate(15em, 0);
 }
 
-h1 {
-	font-size:2em;
+a {
+	color: #222;
+	// text-decoration: none;
+}
+
+nav {
+	position: fixed;
+	width: 15em;
+	/*transform*/
+	-webkit-transform:translate(-15em, 0);
+	   -moz-transform:translate(-15em, 0);
+	    -ms-transform:translate(-15em, 0);
+	     -o-transform:translate(-15em, 0);
+	        transform:translate(-15em, 0);
+	background-color: #D2A782;	
+	height:100%;
+	min-height: 1200px;
+	ul {
+		width: 100%;
+		li {
+			height: 2em;
+			text-align: center;
+			line-height: 2em;
+			
+		}
+	}
+	h1, h2, h3 {
+		height: 2em;
+		text-align: center;
+		width: 100%;
+		margin: 10px 0;
+		background-color: #A96A35;
+		line-height: 2em;
+		color: white;
+	}
+	h2 {
+		font-size: 1.25em;
+		margin: 0;
+		margin-bottom: 10px;
+	}
+	h3 {
+		font-size: 1em;
+	}
+	input {
+		display: inline-block;
+		margin-left: 35px;
+	}
+}
+
+
+#top {
+	width: 100%;
+	background-color: #A96A35;
+	height: 2.5em;
+	color: white;
+	h1 {
+		width: 100%;
+		text-align: center;
+		line-height: 40px;
+		font-size: 1.5em;
+	}
+	.nav-toggle {
+		border-color: transparent;
+		background: none;
+		z-index: 1;
+		padding: 0;
+		line-height: 40px;
+		font-size: 20px;
+		border: none;
+		color: white;
+		position: absolute;
+		width: 40px;
+	}
+	.nav-toggle:focus {
+		outline: 0;
+	}
+}
+
+#content {
+	padding: 15px;
+	opacity: 1;
+	-webkit-transition:all 1s;
+	   -moz-transition:all 1s;
+	     -o-transition:all 1s;
+	        transition:all 1s;
+}
+#content.showFirstTime {
+	opacity: 0;
+}
+
+#discription p {
+	margin: 10px 0; 
+}
+
+#movies {
+	article {
+		background-color: rgba(169, 106, 53, 0.4);
+		padding: 10px;
+		color: #222;
+		margin-bottom: 15px;
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-flow: row wrap;
+		justify-content: space-around;
+		-webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		h1 {
+			font-size: 1.5em;
+		}
+		div {
+			width: 48%;
+		}
+		figure {
+			width:48%;
+			img {
+				width: 100%;
+				max-height: 300px;
+				max-width: 200px;
+			}
+		}
+		header {
+			margin-bottom: 15px;
+			em {
+				line-height: normal;
+			}
+		}
+		p {
+			line-height: normal;
+		}
+		a {
+			margin-top: 15px;
+			display: block;
+		}
+	}
+}
+
+#detail {
+	article {
+		background-color: rgba(169, 106, 53, 0.4);
+		padding: 10px;
+		color: #222;
+		margin-bottom: 15px;
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-flow: row wrap;
+		justify-content: space-around;
+		-webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		h1 {
+			font-size: 1.5em;
+		}
+		figure {
+			img {
+				width: 100%;
+				max-height: 300px;
+				max-width: 200px;
+			}
+			margin-bottom: 15px;
+		}
+		header {
+			margin-bottom: 15px;
+			width: 100%;
+			em {
+				line-height: normal;
+			}
+		}
+		p {
+			line-height: normal;
+			margin-bottom: 15px;
+		}
+		a {
+			margin-top: 15px;
+			display: block;
+		}
+		section {
+			width: 50%;
+			h2 {
+				font-size: 1.25em;
+			}
+			div {
+				margin-top: 15px;
+				span {
+					display: block;
+				}
+			}
+		}
+	}
+}
+#firstTimeData {
+	position: fixed;
+	top: 40%;
+	width: 100%;
+	text-align: center;
+	display: none;
+	opacity: 0;
+	-webkit-transition:all 1s;
+	   -moz-transition:all 1s;
+	     -o-transition:all 1s;
+}
+div#firstTimeData.show {
+	display: block;
+	opacity: 1;
 }
